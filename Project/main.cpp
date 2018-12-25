@@ -10,7 +10,7 @@ struct Item
 {
 public:
 	int x;
-	Item(int x): x(x)
+	Item(int x) : x(x)
 	{
 	}
 public:
@@ -18,12 +18,6 @@ public:
 	{
 		return to_string(x);
 	}
-};
-
-class Object
-{
-public:
-	int a = 1;
 };
 
 static const string BEGIN = "begin:";
@@ -36,21 +30,28 @@ namespace
 		return "";
 	}
 
-	string ToString(Object obj)
+	template<typename Last>
+	string ToString(Last last)
 	{
-		return "obj-"+to_string(obj.a)+ " ";
+		return last.toString();
 	}
 
-	template<typename ArgHead, typename... Args>
-	string ToString(ArgHead head, Args... args)
+	template<typename First, typename... Rest>
+	string ToString(First first, Rest... rest)
 	{
-		return head.toString().append(ToString(args...));
+		return first.toString().append(ToString(rest...));
 	}
+}
 
+namespace
+{
 	template<typename... Args>
-	string ToString(Object obj, Args... args)
+	string ToString2(Args... args)
 	{
-		return BEGIN + ToString(obj) + ToString(args...) + END;
+		string s = BEGIN;
+		int arr[] = { (s.append(args.toString()), 0)... };
+		s.append(END);
+		return s;
 	}
 }
 
@@ -89,11 +90,12 @@ public:
 
 void test0()
 {
-	Object obj;
 	Item i1(222);
 	Item i2(111);
-	string s = ToString(obj, i1, i2);
+	string s = ToString(i1, i2);
+	string s2 = ToString2(i1, i2);
 	cout << s << endl;
+	cout << s2 << endl;
 }
 
 void test1()
