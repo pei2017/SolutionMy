@@ -1,110 +1,110 @@
-#include <variant>
-#include <algorithm>
-#include <vector>
-#include <string>
-#include <iostream>
-
-using namespace std;
-
-struct Item
-{
-public:
-	int x;
-	Item(int x) : x(x)
-	{
-	}
-public:
-	string toString()
-	{
-		return to_string(x);
-	}
-};
-
-static const string BEGIN = "begin:";
-static const string END = " end!";
+#include "str.h"
 
 namespace
 {
-	string ToString()
+	void test0()
 	{
-		return "";
+		Item i1(222);
+		Item i2(111);
+		string s = ToString(i1, i2);
+		string s2 = ToString2(i1, i2);
+		cout << s << endl;
+		cout << s2 << endl;
 	}
 
-	template<typename Last>
-	string ToString(Last last)
+	void test1()
 	{
-		return last.toString();
+		print(10, 'c', "bbb", string("123"));
 	}
 
-	template<typename First, typename... Rest>
-	string ToString(First first, Rest... rest)
+	void test2()
 	{
-		return first.toString().append(ToString(rest...));
-	}
-}
-
-namespace
-{
-	template<typename... Args>
-	string ToString2(Args... args)
-	{
-		string s = BEGIN;
-		int arr[] = { (s.append(args.toString()), 0)... };
-		s.append(END);
-		return s;
-	}
-}
-
-namespace
-{
-	template<size_t I = 0, typename FuncT, typename ...Tp>
-	inline typename std::enable_if_t<I == sizeof ...(Tp)> for_each(std::tuple<Tp ...>&, FuncT)
-	{
-	}
-
-	template<size_t I = 0, typename FuncT, typename ...Tp>
-	inline typename std::enable_if_t < I < sizeof ...(Tp)> for_each(std::tuple<Tp ...>& t, FuncT f)
-	{
-		f(std::get<I>(t));
-		for_each<I + 1, FuncT, Tp...>(t, f);
-	}
-
-	template<typename ...Args>
-	auto print(Args ...args)
-	{
-		auto a = std::forward_as_tuple(args...);
-		for_each(a, [](auto x)
+		vector<int> i = { 1,2,3,4,5 };
 		{
-			std::cout << typeid(x).name() << ":" << x << std::endl;
-		});
+			vector<int> temp;
+			temp.swap(i);
+		}
+		int size = i.size();
 	}
-}
 
-class Test
-{
-public:
+	void test3()
+	{
+		class Node
+		{
+			int x;
+			int y;
+		};
 
-public:
-	vector<Item> items;
-};
+		std::list<Node*> list;
+		//auto iter = --list.end();
+		list.push_back(new Node());
+	}
 
-void test0()
-{
-	Item i1(222);
-	Item i2(111);
-	string s = ToString(i1, i2);
-	string s2 = ToString2(i1, i2);
-	cout << s << endl;
-	cout << s2 << endl;
-}
+	struct Valclass
+	{
+		int x = 0;
+		float y = 1.0;
+	};
+	enum Type
+	{
+		tint,
+		tfloat,
+	};
+	class my_cast_imp
+	{
+		Valclass s;
+	public:
+		my_cast_imp(const Valclass s) : s(s) {}
+		operator int() const
+		{
+			return s.x;
+		}
+		operator float() const
+		{
+			return s.y;
+		}
+	};
+	my_cast_imp my_cast2(const Valclass& s)
+	{
+		return my_cast_imp(s);
+	}
 
-void test1()
-{
-	print(10, 'c', "bbb", string("123"));
+	template<Type>
+	auto get(const std::vector<Valclass>& vec, size_t idx)
+	{
+		return vec[idx];
+	}
+	template<>
+	auto get<tint>(const std::vector<Valclass>& vec, size_t idx)
+	{
+		return vec[idx].x;
+	}
+	template<>
+	auto get<tfloat>(const std::vector<Valclass>& vec, size_t idx)
+	{
+		return vec[idx].y;
+	}
+
+	void test4Inner(int x, float y) {}
+
+	void test4()
+	{
+		Valclass val;
+		int x = my_cast2(val);
+		float y = my_cast2(val);
+		test4Inner(my_cast2(val), my_cast2(val));
+
+		std::vector<Valclass> vals(3);
+		int i = get<tint>(vals, 0);
+		float j = get<tfloat>(vals, 0);
+	}
 }
 
 int main()
 {
+	test4();
+	test3();
+	test2();
 	test0();
 	test1();
 	return 0;
