@@ -78,6 +78,37 @@ namespace
 	}
 }
 
+namespace
+{
+	enum EnumTest
+	{
+		et,
+	};
+
+	template<typename T>
+	string str(typename std::enable_if<std::is_arithmetic<T>::value, T>::type&  t)
+	{
+		cout << "arithmetic" << endl;
+		return std::to_string(t);
+	}
+
+	template<typename T>
+	string str(typename std::enable_if<std::is_enum<T>::value, T>::type&  t)
+	{
+		cout << "enum" << endl;
+		return std::to_string(t);
+	}
+
+	void test1()
+	{
+		int i = 0;
+		cout << str<int>(i) << endl;
+
+		EnumTest tmp = et;
+		cout << str<EnumTest>(tmp) << endl;
+	}
+}
+
 int main()
 {
 	test();
