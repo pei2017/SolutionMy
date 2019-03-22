@@ -119,7 +119,10 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="str.h" />
+    <ClInclude Include="cast.h" />
+    <ClInclude Include="crtp.h" />
+    <ClInclude Include="invoke.h" />
+    <ClInclude Include="vartemplates.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
