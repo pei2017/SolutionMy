@@ -121,6 +121,7 @@
   <ItemGroup>
     <ClInclude Include="cast.h" />
     <ClInclude Include="crtp.h" />
+    <ClInclude Include="funcargs.h" />
     <ClInclude Include="invoke.h" />
     <ClInclude Include="issame.h" />
     <ClInclude Include="vartemplates.h" />

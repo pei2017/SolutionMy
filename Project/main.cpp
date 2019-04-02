@@ -3,6 +3,8 @@
 #include "invoke.h"
 #include "vartemplates.h"
 #include "issame.h"
+#include "funcargs.h"
+
 
 int main()
 {
@@ -12,5 +14,6 @@ int main()
 	enable::test();
 	invoke::test();
 	myisame::Test();
+	funcargs::Test();
 	return 0;
 }
