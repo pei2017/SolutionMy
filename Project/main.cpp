@@ -2,7 +2,7 @@
 #include "cast.h"
 #include "invoke.h"
 #include "vartemplates.h"
-
+#include "issame.h"
 
 int main()
 {
@@ -11,5 +11,6 @@ int main()
 	cast::test();
 	enable::test();
 	invoke::test();
+	myisame::Test();
 	return 0;
 }
