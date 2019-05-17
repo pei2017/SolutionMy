@@ -4,6 +4,7 @@
 #include "vartemplates.h"
 #include "issame.h"
 #include "funcargs.h"
+#include "tttemplate.h"
 
 
 int main()
@@ -15,5 +16,6 @@ int main()
 	invoke::test();
 	myisame::Test();
 	funcargs::Test();
+	tttemplate::ttest();
 	return 0;
 }

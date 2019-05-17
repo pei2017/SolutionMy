@@ -38,5 +38,8 @@
     <ClInclude Include="funcargs.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="tttemplate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
