@@ -19,10 +19,11 @@ namespace tttemplate
 		Container(int, typename Traits<T>::type v) {}
 	};
 
+#if __cplusplus > 201402L
 	// 自动推断向导
 	template<typename T>
 	Container(int ,T)->Container<T>;
-
+#endif
 
 	template<typename T1, typename T2>
 	struct Container2
@@ -32,7 +33,9 @@ namespace tttemplate
 
 	void ttest()
 	{
+#if __cplusplus > 201402L
 		Container c(0, 0); //  编译器自动推导的结果是 Container<int>
 		Container2 c2(5,5,0);
+#endif
 	}
 }

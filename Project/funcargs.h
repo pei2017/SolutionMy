@@ -83,6 +83,32 @@ struct MyParamTraits<_Ret(_typename::*)(_Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6
 	enum { arg_count = 6 };
 };
 
+template<size_t N>
+struct argTypeArray
+{
+	int array[N];
+};
+
+template<typename T>
+struct MyParamTraits2
+{
+};
+
+template<typename _Class, typename _Ret, typename... _Args>
+struct MyParamTraits2<_Ret(_Class::*)(_Args...)>
+{
+	using class_type = _Class;
+	using ret_type = _Ret;
+	enum { arg_count = sizeof...(_Args) };
+	enum { types_count = arg_count + 1 }; //+ret_type
+	enum { ret_type_id = MyParamSizeTraits<_Ret>::arg_size };
+
+	constexpr static argTypeArray<types_count> getTypes()
+	{
+		return { ret_type_id, (MyParamSizeTraits<_Args>::arg_size)... };
+	}
+};
+
 template<typename T>
 int GetFuncArgCount(T t)
 {

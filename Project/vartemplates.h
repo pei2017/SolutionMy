@@ -53,10 +53,12 @@ namespace vartemplates
 		template<typename ...Args>
 		void Test(Args ...args)
 		{
+#if __cplusplus > 201402L
 			auto elements = std::forward_as_tuple(args...);
 			for_each(elements, [](auto element) {
 				std::cout << typeid(element).name() << ":" << element << std::endl;
 				});
+#endif
 		}
 	}
 
